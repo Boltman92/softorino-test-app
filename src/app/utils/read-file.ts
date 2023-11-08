@@ -3,7 +3,7 @@ import fsPromises from 'fs/promises';
 import { ProjectData } from "../interfaces";
 
 export const dataFilePath = './src/app/signup/api/userData.json';
-export const projectFilePath = './src/app/projects/api/projectsData.json';
+export const projectFilePath = '/src/app/projects/api/projectsData.json';
 
 interface UserData {
     email: string;
