@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import fsPromises from "fs/promises";
 import {
   dataFilePath,
   readUserDataFile,
 } from "@/app/utils/read-file";
-import { ProjectData, UserData } from "@/app/interfaces";
+import { ProjectData } from "@/app/interfaces";
 import path from "path";
 import { getEmail } from "@/app/utils/getEmail";
 
@@ -82,6 +81,8 @@ export async function DELETE(request: NextRequest) {
 
   const reqBody: ProjectData = await request.json();
 
+  const file = path.join(process.cwd(), dataFilePath);
+
   const email = getEmail();
 
   const userInfo = userData[email];
@@ -100,7 +101,7 @@ export async function DELETE(request: NextRequest) {
     [email]: { ...userInfo, projects: updatedProjectsArray },
   };
 
-  await fsPromises.writeFile(projectFilePath, JSON.stringify(newUserData));
+  await fsPromises.writeFile(file, JSON.stringify(newUserData));
 
   return NextResponse.json(
     { message: "you successfully deleted task" },
