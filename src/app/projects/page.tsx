@@ -12,8 +12,8 @@ export default function Projects() {
   useEffect(() => {
     (async () => {
       const response = await fetch("./projects/api");
-      const result = await response.json();
-      setProjects(result as ProjectData[]);
+      const result: ProjectData[] = await response.json();
+      setProjects(result);
       setIsLoading(false);
     })();
   }, []);
@@ -33,22 +33,24 @@ export default function Projects() {
     const result = await response.json();
     if (response.status === 200) {
       alert(result.message);
-      setProjects(result.data)
+      setProjects(result.data);
     }
   };
 
-  const handleLogout = async() =>{
+  const handleLogout = async () => {
     const response = await fetch("./logout");
     const result = await response.json();
-    if(response.status === 200){
-        alert(result.message)
-        router.push('/login')
+    if (response.status === 200) {
+      alert(result.message);
+      router.push("/login");
     }
-  }
+  };
 
   return (
     <div className="w-full h-full flex justify-center px-8 items-center flex-col gap-4 sm:p-0">
-       <button className="absolute right-6 top-6" onClick={handleLogout}>Logout</button>
+      <button className="absolute right-6 top-6" onClick={handleLogout}>
+        Logout
+      </button>
       {isLoading ? (
         <div>Loading projects...</div>
       ) : (

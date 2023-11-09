@@ -6,12 +6,14 @@ import { FormValues } from "../interfaces";
 import { useYupValidationResolver } from "../hooks/useYupResolver";
 import { loginValidationSchema } from "../utils/validation";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 type LoginValues = Omit<FormValues, "confirmPassword">;
 
 export default function Login() {
   const resolver = useYupValidationResolver<LoginValues>(loginValidationSchema);
   const router = useRouter();
+  const [backendError, setBackendError] = useState("");
 
   const onSubmit = async (data: LoginValues) => {
     const { email, password } = data;
@@ -25,7 +27,7 @@ export default function Login() {
     });
 
     if (response.status !== 200) {
-      alert(response.statusText ?? "unknown error");
+      setBackendError(response.statusText ?? "unknown error");
     } else {
       router.push("/projects");
     }
@@ -50,15 +52,15 @@ export default function Login() {
           name="email"
           description="Email:"
           register={register}
-          isError={!!errors.email}
-          errorMessage={errors.email?.message}
+          isError={!!errors.email || !backendError}
+          errorMessage={errors.email?.message || backendError}
         />
         <InputField
           name="password"
           description="your password:"
           register={register}
-          isError={!!errors.password}
-          errorMessage={errors.password?.message}
+          isError={!!errors.password || !!backendError}
+          errorMessage={errors.password?.message || backendError}
           type="password"
         />
         <input type="submit" />

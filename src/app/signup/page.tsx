@@ -5,17 +5,21 @@ import { FormValues } from "../interfaces";
 import { useYupValidationResolver } from "../hooks/useYupResolver";
 import { signUpValidationSchema } from "../utils/validation";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import bcrypt from "bcryptjs";
 
 export default function SignUp() {
   const resolver = useYupValidationResolver<FormValues>(signUpValidationSchema);
-  const router = useRouter()
+  const router = useRouter();
+  const [backendErorr, setBackendError] = useState("");
 
   const onSubmit = async (data: FormValues) => {
+    const hashedPassword = await bcrypt.hash(data.password, 10);
 
     const result = {
-        email: data.email,
-        password: data.password,
-      };
+      email: data.email,
+      password: hashedPassword,
+    };
 
     const response = await fetch("./signup/api", {
       method: "POST",
@@ -26,7 +30,7 @@ export default function SignUp() {
     });
 
     if (response.status !== 200) {
-      alert(response.statusText);
+      setBackendError(response.statusText);
     } else {
       router.push("/login");
     }
@@ -73,6 +77,11 @@ export default function SignUp() {
           type="password"
         />
         <input type="submit" />
+        {backendErorr && (
+          <div className="text-sm text-red-500 w-100vw flex justify-center mt-8">
+            {backendErorr}
+          </div>
+        )}
       </form>
     </main>
   );

@@ -19,9 +19,11 @@ export default function AddProject() {
   const resolver = useYupValidationResolver<Props>(projectValidationSchema);
 
   const searchParams = useSearchParams();
-  const title = searchParams.get('title') ?? ''
-  const tasks = searchParams.get('tasks') ? JSON.parse(searchParams.get('tasks') ?? '') : []
-  const comment = searchParams.get('comment') ?? ''
+  const title = searchParams.get("title") ?? "";
+  const tasks = searchParams.get("tasks")
+    ? JSON.parse(searchParams.get("tasks") ?? "")
+    : [];
+  const comment = searchParams.get("comment") ?? "";
 
   const {
     formState: { errors },
@@ -50,9 +52,9 @@ export default function AddProject() {
 
     if (response.status === 200) {
       alert(body.data);
-      router.push('/projects');
+      router.push("/projects");
     } else {
-        alert('something went wrong...')
+      alert("something went wrong...");
     }
   };
 
@@ -70,21 +72,21 @@ export default function AddProject() {
           name="tasks.0"
           register={register}
           description="fist task"
-          isError={!!errors.title}
+          isError={false}
         />
 
         <InputField
           name="tasks.1"
           register={register}
           description="second task"
-          isError={!!errors.title}
+          isError={false}
         />
 
         <InputField
           name="tasks.2"
           register={register}
           description="third task"
-          isError={!!errors.title}
+          isError={false}
         />
 
         <input type="submit" className="w-full border border-black rounded" />
