@@ -16,6 +16,8 @@ export async function POST(request: NextRequest) {
 
   const reqBody = (await request.json()) as ProjectData;
 
+  const file = path.join(process.cwd(), projectFilePath);
+
   const notEmptyTasks = reqBody.tasks?.filter((task) => task !== "") ?? [];
 
   const existingProjectIndex = projectData.findIndex(
@@ -25,7 +27,6 @@ export async function POST(request: NextRequest) {
   if (existingProjectIndex !== -1) {
     projectData[existingProjectIndex] = { ...reqBody, tasks: notEmptyTasks };
 
-    const file = path.join(process.cwd(), projectFilePath);
 
     await fsPromises.writeFile(file, JSON.stringify(projectData));
 
@@ -41,7 +42,8 @@ export async function POST(request: NextRequest) {
     comment: reqBody.comment,
   });
 
-  await fsPromises.writeFile(projectFilePath, JSON.stringify(projectData));
+
+  await fsPromises.writeFile(file, JSON.stringify(projectData));
 
   return NextResponse.json(
     { data: "you successfully add new task!" },
