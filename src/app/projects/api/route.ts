@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import fsPromises from "fs/promises";
 import {
   dataFilePath,
-  projectFilePath,
   readUserDataFile,
 } from "@/app/utils/read-file";
 import { ProjectData, UserData } from "@/app/interfaces";
