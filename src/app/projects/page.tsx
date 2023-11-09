@@ -55,7 +55,7 @@ export default function Projects() {
         <div>Loading projects...</div>
       ) : (
         <>
-          {projects.map((project) => {
+          {projects?.map((project) => {
             return (
               <div
                 key={`${project.title} + ${project?.tasks?.[0]}`}
