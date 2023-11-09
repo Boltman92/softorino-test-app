@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import fsPromises from "fs/promises";
 import { projectFilePath, readProjectDataFile } from "@/app/utils/read-file";
 import { ProjectData } from "@/app/interfaces";
+import path from "path";
 
 export async function GET(request: NextRequest) {
   const projectData = await readProjectDataFile();
@@ -24,7 +25,9 @@ export async function POST(request: NextRequest) {
   if (existingProjectIndex !== -1) {
     projectData[existingProjectIndex] = { ...reqBody, tasks: notEmptyTasks };
 
-    await fsPromises.writeFile(projectFilePath, JSON.stringify(projectData));
+    const file = path.join(process.cwd(), projectFilePath);
+
+    await fsPromises.writeFile(file, JSON.stringify(projectData));
 
     return NextResponse.json(
       { data: "you successfully edit task!" },
