@@ -11,7 +11,7 @@ import bcrypt from "bcryptjs";
 export default function SignUp() {
   const resolver = useYupValidationResolver<FormValues>(signUpValidationSchema);
   const router = useRouter();
-  const [backendErorr, setBackendError] = useState("");
+  const [backendError, setBackendError] = useState("");
 
   const onSubmit = async (data: FormValues) => {
     const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -29,8 +29,10 @@ export default function SignUp() {
       body: JSON.stringify(result),
     });
 
+    const responseData = await response.json();
+
     if (response.status !== 200) {
-      setBackendError(response.statusText);
+      setBackendError(responseData.error);
     } else {
       router.push("/login");
     }
@@ -77,9 +79,9 @@ export default function SignUp() {
           type="password"
         />
         <input type="submit" />
-        {!!backendErorr && (
+        {!!backendError && (
           <div className="text-sm text-red-500 w-100vw flex justify-center mt-8">
-            {backendErorr}
+            {backendError}
           </div>
         )}
       </form>

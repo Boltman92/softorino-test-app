@@ -10,8 +10,8 @@ export async function POST(request: Request, response: NextApiResponse) {
     const existingData = await readUserDataFile();
     if (existingData[rawData.email]) {
       return NextResponse.json(
-        {},
-        { status: 403, statusText: "user is already exists" }
+        {error: "user is already exists"},
+        { status: 403 }
       );
     }
 
@@ -34,7 +34,7 @@ export async function POST(request: Request, response: NextApiResponse) {
     );
   } catch (e: any) {
     return NextResponse.json(
-      { data: e.message },
+      { error: e.message },
       { status: 500, statusText: e.message }
     );
   }

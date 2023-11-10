@@ -27,8 +27,10 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       });
 
+      const result = await response.json()
+
       if (response.status !== 200) {
-        setBackendError(response.statusText ?? "unknown error");
+        setBackendError(result.error);
       } else {
         router.push("/projects");
       }

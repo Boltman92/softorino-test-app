@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     if (!existingUser) {
       return NextResponse.json(
         { error: "user does not exists" },
-        { status: 400, statusText: "user does not exists" }
+        { status: 403 }
       );
     }
 
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     if (!hashedPasswordCheck) {
       return NextResponse.json(
         { error: "Invalid password" },
-        { status: 403, statusText: "Invalid password" }
+        { status: 403 }
       );
     }
 
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       password: existingUser.password,
     };
     //create token
-    const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
+    const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
       expiresIn: "1d",
     });
 
