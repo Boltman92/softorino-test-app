@@ -87,24 +87,16 @@ export async function DELETE(request: NextRequest) {
 
   const userInfo = userData[email];
 
-  const existingProjectIndex = userInfo.projects.findIndex(
-    (project) => reqBody.title === project.title
+  const updatedUserArray = userInfo.projects.filter(
+    (project) => reqBody.title !== project.title
   );
 
-  const updatedProjectsArray = userInfo.projects.splice(
-    existingProjectIndex,
-    1
-  );
+  const newData = {...userData, [email]: {...userInfo, projects: [...updatedUserArray]}}
 
-  const newUserData = {
-    ...userData,
-    [email]: { ...userInfo, projects: updatedProjectsArray },
-  };
-
-  await fsPromises.writeFile(file, JSON.stringify(newUserData));
+  await fsPromises.writeFile(file, JSON.stringify(newData));
 
   return NextResponse.json(
-    { message: "you successfully deleted task" },
+    { message: "you successfully deleted task", data: updatedUserArray },
     { status: 200 }
   );
 }

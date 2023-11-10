@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
     const hashedPasswordCheck = await bcrypt.compare(
       password,
-      existingUser.password
+      existingUser?.password ?? ''
     );
 
     if (!existingUser) {

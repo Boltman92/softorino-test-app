@@ -66,6 +66,7 @@ export default function AddProject() {
           register={register}
           description="project name"
           isError={!!errors.title}
+          errorMessage={errors?.title?.message}
         />
 
         <InputField
