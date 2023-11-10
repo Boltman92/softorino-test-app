@@ -16,20 +16,25 @@ export default function Login() {
   const [backendError, setBackendError] = useState("");
 
   const onSubmit = async (data: LoginValues) => {
-    const { email, password } = data;
+    try {
+      const { email, password } = data;
 
-    const response = await fetch("./login/api", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+      const response = await fetch("./login/api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (response.status !== 200) {
-      setBackendError(response.statusText ?? "unknown error");
-    } else {
-      router.push("/projects");
+      if (response.status !== 200) {
+        setBackendError(response.statusText ?? "unknown error");
+      } else {
+        router.push("/projects");
+      }
+    } catch (e) {
+      console.log(e, 'error')
+      setBackendError("something went wrong...");
     }
   };
 
