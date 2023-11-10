@@ -5,7 +5,7 @@ import { useYupValidationResolver } from "@/app/hooks/useYupResolver";
 import { ProjectData } from "@/app/interfaces";
 import { projectValidationSchema } from "@/app/utils/validation";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { Suspense } from "react";
 import { useForm } from "react-hook-form";
 
 interface Props {
@@ -59,6 +59,7 @@ export default function AddProject() {
   };
 
   return (
+    <Suspense fallback={<>loading...</>}>
     <main className="flex min-h-screen flex-col items-center justify-center p-2 gap-4">
       <form onSubmit={handleSubmit(onSubmit)}>
         <InputField
@@ -93,5 +94,6 @@ export default function AddProject() {
         <input type="submit" className="w-full border border-black rounded" />
       </form>
     </main>
+    </Suspense>
   );
 }

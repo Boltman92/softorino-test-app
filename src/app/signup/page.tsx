@@ -77,7 +77,7 @@ export default function SignUp() {
           type="password"
         />
         <input type="submit" />
-        {backendErorr && (
+        {!!backendErorr && (
           <div className="text-sm text-red-500 w-100vw flex justify-center mt-8">
             {backendErorr}
           </div>

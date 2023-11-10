@@ -52,7 +52,7 @@ export default function Login() {
           name="email"
           description="Email:"
           register={register}
-          isError={!!errors.email || !backendError}
+          isError={!!errors.email}
           errorMessage={errors.email?.message || backendError}
         />
         <InputField
